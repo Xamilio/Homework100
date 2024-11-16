@@ -1,39 +1,67 @@
 ﻿#include <iostream>
 using namespace std;
 
-int main()
+int main() 
 {
-    int const N = 8;
-    int arr[N] = { 54, 42, 39, 37, 12, 5, 3, 1 };
-    int left = 0;
-    int right = N - 1;
-    int middleIndex;
-    int search;
-
-    cout << "Enter search: ";
-    cin >> search;
-
-    int index = -1;
-
-    while (left <= right)
+    const int N = 10;
+    int arr[N] = { 3, 1, 4, 1, 5, 9, 2, 6, 5, 3 };
+    int target = 5;
+    for (int i = 0; i < N - 1; ++i) 
     {
-        middleIndex = (left + right) / 2;
-
-        if (arr[middleIndex] == search)
+        for (int j = 0; j < N - i - 1; ++j)
         {
-            index = middleIndex;
-            break;
-        }
-        else if (arr[middleIndex] > search)
-        {
-            left = middleIndex + 1;
-        }
-        else
-        {
-            right = middleIndex - 1;
+            if (arr[j] < arr[j + 1]) 
+            {
+                int temp = arr[j];
+                arr[j] = arr[j + 1];
+                arr[j + 1] = temp;
+            }
         }
     }
 
-    cout << index << endl;
+    cout << "Відсортований масив: ";
+    for (int i = 0; i < N; ++i) 
+    {
+        cout << arr[i] << " ";
+    }
+    cout << endl;
 
+    int left = 0, right = N - 1;
+    bool found = false;
+
+    while (left <= right) 
+    {
+        int mid = left + (right - left) / 2;
+
+        if (arr[mid] == target) 
+        {
+            int temp = mid;
+            cout << "Знайдено значення " << target << " на індексах: ";
+            while (temp >= 0 && arr[temp] == target) 
+            {
+                cout << temp << " ";
+                temp--;
+            }
+            temp = mid + 1;
+            while (temp < N && arr[temp] == target)
+            {
+                cout << temp << " ";
+                temp++;
+            }
+            found = true;
+            break;
+        }
+        if (arr[mid] > target)
+        {
+            left = mid + 1;
+        }
+        else
+        {
+            right = mid - 1;
+        }
+    }
+    if (!found) 
+    {
+        cout << "Значення " << target << " не знайдено." << endl;
+    }
 }
